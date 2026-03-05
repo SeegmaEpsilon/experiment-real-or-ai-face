@@ -84,7 +84,7 @@ const timeline = [];
 // 1. АНКЕТА
 timeline.push({
   type: jsPsychSurveyHtmlForm,
-  preamble: "<h2>Добро пожаловать</h2><p>Пожалуйста, ответьте на вопросы перед началом.</p>",
+  preamble: "<h2>Добро пожаловать!</h2><p>Пожалуйста, ответьте на вопросы перед началом.</p>",
   html: `
     <div style="margin-bottom: 20px; text-align: left; display: inline-block;">
       <p> Ваш возраст: <input name="age" type="number" required style="width: 50px;" /> </p>
@@ -97,7 +97,7 @@ timeline.push({
       </p>
       <p>
         <label style="cursor:pointer;">
-          <input type="checkbox" name="train" checked style="width:18px; height:18px;" />
+          <input type="checkbox" name="train" style="width:18px; height:18px;" />
           <b>Включить тренировку</b>
         </label>
       </p>
@@ -149,7 +149,7 @@ timeline.push(training_procedure);
 // 3. Основной тест
 timeline.push({
   type: jsPsychHtmlButtonResponse,
-  stimulus: "<h3>Основная часть</h3><p>Обратной связи больше не будет. Пожалуйста, старайтесь обосновывать свои решения.</p>",
+  stimulus: "<h3>Основная часть</h3><p>После нажатия на кнопку начнётся тест. Пожалуйста, старайтесь обосновывать свои решения.</p>",
   choices: ["Начать тест"]
 });
 
@@ -203,6 +203,27 @@ TEST_STIMULI.forEach((stim) => {
   };
 
   timeline.push(judge_trial);
+});
+
+// 4. Финальный экран с результатами
+timeline.push({
+  type: jsPsychHtmlButtonResponse,
+  choices: ["Завершить"],
+  stimulus: () => {
+    // Получаем все данные из фазы теста
+    const trials = jsPsych.data.get().filter({phase: 'test'});
+    const correct_trials = trials.filter({correct: true});
+    
+    // Считаем точность
+    const accuracy = Math.round((correct_trials.count() / trials.count()) * 100);
+    
+    return `
+      <h2>Результаты теста</h2>
+      <p>Вы правильно определили <b>${correct_trials.count()}</b> из <b>${trials.count()}</b> изображений.</p>
+      <p style="font-size: 1.2em;">Ваша точность: <b>${accuracy}%</b></p>
+      <p>Спасибо за участие! Нажмите кнопку, чтобы отправить данные.</p>
+    `;
+  }
 });
 
 jsPsych.run(timeline);
