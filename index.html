@@ -3,28 +3,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Эксперимент: Реальные vs ИИ-изображения</title>
+  <title>Эксперимент</title>
+  <script src="https://unpkg.com/jspsych@7.3.4"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3"></script>
+  <link href="https://unpkg.com/jspsych@7.3.4/css/jspsych.css" rel="stylesheet" type="text/css" />
+<script src="https://unpkg.com/jspsych@7.3.4"></script>
 
-  <!-- jsPsych v7 (UMD build) -->
-  <link rel="stylesheet" href="https://unpkg.com/jspsych@7.3.3/css/jspsych.css" />
-  <script src="https://unpkg.com/jspsych@7.3.3/dist/jspsych.js"></script>
+<script src="https://unpkg.com/@jspsych/plugin-preload@1.1.3"></script>
+<script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.2.0"></script>
+<script src="https://unpkg.com/@jspsych/plugin-image-keyboard-response@1.1.3"></script>
+<script src="https://unpkg.com/@jspsych/plugin-image-button-response@1.2.0"></script>
+<script src="https://unpkg.com/@jspsych/plugin-survey-multi-select@1.1.3"></script>
+<script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.3"></script>
+<script src="https://unpkg.com/@jspsych/plugin-survey-html-form@1.0.3"></script>
 
-  <!-- Plugins -->
-  <script src="https://unpkg.com/jspsych@7.3.3/dist/plugin-preload.js"></script>
-  <script src="https://unpkg.com/jspsych@7.3.3/dist/plugin-html-button-response.js"></script>
-  <script src="https://unpkg.com/jspsych@7.3.3/dist/plugin-image-keyboard-response.js"></script>
-  <script src="https://unpkg.com/jspsych@7.3.3/dist/plugin-image-button-response.js"></script>
-  <script src="https://unpkg.com/jspsych@7.3.3/dist/plugin-survey-multi-select.js"></script>
-  <script src="https://unpkg.com/jspsych@7.3.3/dist/plugin-survey-text.js"></script>
-
-  <style>
-    body { background: #fff; }
-    .jspsych-content { max-width: 900px; }
-    .small { font-size: 0.95rem; opacity: 0.85; }
-    .img-id { margin-top: 8px; font-size: 0.95rem; opacity: 0.85; }
-  </style>
+  <!-- ТВОЙ скрипт — строго последним -->
+  <script defer src="./experiment.js"></script>
 </head>
-<body>
-  <script src="./experiment.js"></script>
-</body>
+<body></body>
 </html>
