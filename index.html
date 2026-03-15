@@ -1,6 +1,174 @@
 <!doctype html>
 <html lang="ru">
 <head>
+
+<style>
+  /* 1. Центрируем всё окно опроса строго посередине */
+  body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f0f2f5;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Центрируем карточку по вертикали */
+  }
+  
+#jspsych-progressbar-container {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    padding: 10px 0 !important; /* Чуть меньше отступы */
+    background-color: white !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    z-index: 10000 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 12px !important; /* ЭТОТ ПАРАМЕТР контролирует близость текста к бару ненавижу css */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03) !important;
+  }
+  
+  #jspsych-progressbar-container span {
+    font-size: 0 !important;
+    margin: 0 !important;
+  }
+
+  #jspsych-progressbar-container span::after {
+    content: "Прогресс прохождения...";
+    font-size: 14px !important;
+    color: #4a5568 !important;
+    font-weight: 600 !important;
+    visibility: visible !important;
+  }
+  
+  /* Настройка самой полоски (чтобы она не улетала) */
+  #jspsych-progressbar-outer {
+    width: 300px !important; /* Ограничиваем ширину, чтобы текст был ближе */
+    background-color: #edf2f7 !important;
+    border-radius: 10px !important;
+    height: 8px !important;
+    border: none !important;
+    margin: 0 !important;
+  }
+
+  #jspsych-progressbar-inner {
+    background-color: #64b067 !important;
+    border-radius: 10px !important;
+  }
+
+  /* 2. Сброс системных контейнеров jsPsych */
+  .jspsych-display-element {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* 3. КАРТОЧКА: Теперь она минимально возможного размера */
+  .jspsych-content-wrapper {
+    background: white !important;
+    padding: 40px !important; /* Внутренние отступы для текста */
+    border-radius: 24px !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.06) !important;
+    
+    /* Эти параметры заставляют карточку «схлопнуться» по размеру контента */
+    display: flex !important; 
+    flex-direction: column !important;
+    align-items: center !important;
+    
+    width: auto !important;
+    min-width: 400px !important; /* Чтобы анкета не была слишком узкой */
+    max-width: 90vw !important;
+    
+    /* КРИТИЧЕСКИЕ ПРАВКИ ДЛЯ ВЫСОТЫ */
+    height: auto !important; 
+    min-height: auto !important; 
+    max-height: 90vh !important; /* Чтобы не вылезала за экран */
+    
+    margin: 20px !important;
+    overflow-y: auto !important; /* Если контента вдруг станет много, появится скролл внутри */
+  }
+
+  /* 4. Стили элементов анкеты и теста */
+  .jspsych-image-button-response-stimulus {
+    display: block !important;
+    margin: 0 auto 20px auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 55vh !important; /* Немного уменьшил для баланса */
+    border-radius: 12px !important;
+  }
+
+  input[type="text"], input[type="number"], select, textarea {
+    padding: 10px !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 8px !important;
+    margin-top: 5px !important;
+  }
+
+  .jspsych-btn {
+    padding: 12px 30px !important;
+    border-radius: 10px !important;
+    background-color: #f9fafb !important;
+    border: 1px solid #d1d5db !important;
+    cursor: pointer !important;
+    transition: background 0.2s !important;
+  }
+
+  .jspsych-btn:hover {
+    background-color: #f3f4f6 !important;
+  }
+  
+  /* Стили для модального окна согласия */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none; /* Скрыто по умолчанию */
+  justify-content: center;
+  align-items: center;
+  z-index: 20000;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+  position: relative;
+  font-size: 0.95em;
+  line-height: 1.5;
+}
+
+.modal-close-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #4299e1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  color: #2d3748;
+}
+</style>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Эксперимент</title>
